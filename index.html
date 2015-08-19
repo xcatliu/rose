@@ -29,6 +29,8 @@ button, input {
   line-height: 1.5em;
   padding: 0.2rem 0.5em;
   box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: none;
 }
 #content {
   z-index: 10;
@@ -91,6 +93,8 @@ var urlParams;
 var SCALE = window.document.body.clientWidth / 200;
 c.style.transform = 'scale(' + SCALE + ')';
 c.style.transformOrigin = '0% 100%';
+c.style.WebkitTransform = 'scale(' + SCALE + ')';
+c.style.WebkitTransformOrigin = '0% 100%';
 
 
 // http://www.w3cfuns.com/blog-5445837-5399730.html
