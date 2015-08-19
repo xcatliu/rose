@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+<title>Rose</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+html, body {
+  width: 100%;
+  height: 100%;
+}
+body, pre {
+  margin: 0;
+  padding: 0;
+  color: #333;
+  font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+}
+body {
+  font-size: 16px;
+  line-height: 1.5em;
+  overflow: hidden;
+}
+button, input {
+  color: #333;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  padding: 0.2rem 0.5em;
+  box-sizing: border-box;
+}
+#content {
+  z-index: 10;
+  position: relative;
+  overflow: auto;
+}
+#content pre {
+  margin: 1rem 0;
+  line-height: 1.8em;
+  font-size: 2em;
+  text-align: center;
+}
+.canvas-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 0;
+}
+.create-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+  font-size: 1.2em;
+}
+.create-form {
+  margin: 1rem 2rem;
+}
+.create-form input {
+  margin: 0.5rem 0;
+  width: 100%;
+}
+</style>
+</head>
+<body>
+<div id="content"></div>
+<div class="canvas-container"><canvas height=256 width=200></canvas></div>
+<script>
+// http://js1k.com/2012-love/demo/1022
+var c = document.getElementsByTagName("canvas")[0];
+var a = c.getContext("2d");
+with(m=Math)C=cos,S=sin,P=pow;O=a.getImageData(0,0,c.height=f=W=256,f);U=O.data;D={};F=[];function J(p){p[5]=Q=0;for(j=3;j--;)if(!D[Q=(p[j]>>=2)+Q*f])D[Q]=F.push(p)}setInterval(function(){for(i=1e3;i--;){c=i%42*1.35;H=T;T=m.random();A=H*2-1;B=T*2-1;J([S(H*7)*(o=13+5/(.2+P(T*4,4)))-T*50,T*550+500,(l=C(H*7))*o,(G=l/7+.5)-T/4,G]);if(A*A+B*B<1)if(c>32){J([(o=.5/(H+.01)-H*300)*C(n=(j=c&1)?6:4)+(w=T*-f)*S(n)+j*630-390,o*S(n)-w*C(n)+999-j*350,C(B+A)*99-j*50,(P(l=1-B*B,f*6)+C(H+T)+P(C((o*H+o+(B>0?w:-w))/25),30)*l-H+2)/5,o/1e3+.7-o*w/3e5]);J([(o=H*45-20)*C(l=c/.86)+(w=T*T)*f*S(l),C(B/2)*99-w*T*60+436,o*S(l)-w*f*C(l),w*.3+.3,T*.7])}else J([(o=A*(2-T)*(80-c*2))*C(c)-(w=99-C(A)*120-C(T)*(f-c*5)+C(P(1-T,7))*50+c*2)*S(c),(B*2-C(P(T,7))+9)*50,o*S(c)+w*C(c),1-T*.7,P(1-T,9)/4])}for(i=0;i<f*f;m[i++]=f)for(l=4;l--;)U[i*4+l]=255;for(c=C(W),s=S(W),j=F.length;j--;){k=F[j],x=k[0]*c+k[2]*s+99,z=k[0]*s-k[2]*c,y=k[1]-z*.4<<8;for(i=3;i--;)if(z<m[p=y-~x+[0,1,f][i]])for(m[p]=z,l=3;l--;)U[p*4+l]=k[l+3]*f}a.putImageData(O,0,0);W+=.03},T=0)
+
+
+// http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+var urlParams;
+(window.onpopstate = function () {
+  var match,
+      pl     = /\+/g,  // Regex for replacing addition symbol with a space
+      search = /([^&=]+)=?([^&]*)/g,
+      decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+      query  = window.location.search.substring(1);
+
+  urlParams = {};
+  while (match = search.exec(query))
+    urlParams[decode(match[1])] = decode(match[2]);
+})();
+
+
+var SCALE = window.document.body.clientWidth / 200;
+c.style.transform = 'scale(' + SCALE + ')';
+c.style.transformOrigin = '0% 100%';
+
+
+// http://www.w3cfuns.com/blog-5445837-5399730.html
+function prints(target, str, speed) {
+  var timer = null;
+  var count = 0;
+  timer = setInterval(function() {
+    if (count >= str.length) {
+      clearInterval(timer);
+    } else {
+      target.innerHTML = str.substring(0, count);
+      count++;
+    }
+  }, speed);
+}
+
+
+var content = document.getElementById('content');
+var lines = [urlParams.line0, urlParams.line1, urlParams.line2];
+if (lines[0] && lines[1] && lines[2]) {
+  var pre = document.createElement('pre');
+  content.appendChild(pre);
+  prints(pre, lines.join('\n'), 300);
+  setTimeout(function() {
+    var createButton = document.createElement('button');
+    createButton.className = 'create-button';
+    createButton.innerHTML = 'Create';
+    content.appendChild(createButton);
+    createButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+    });
+  }, 3000);
+} else {
+  var form = document.createElement('form');
+  form.method = 'GET';
+  form.className = 'create-form';
+  lines.forEach(function(line, index) {
+    var lineInput = document.createElement('input');
+    lineInput.type = 'text';
+    lineInput.name = 'line' + index;
+    lineInput.placeholder = 'line' + index;
+    form.appendChild(lineInput);
+  });
+  var submitButton = document.createElement('input');
+  submitButton.type = 'submit';
+  submitButton.value = 'Submit';
+  form.appendChild(submitButton);
+  content.appendChild(form);
+}
+</script>
+</body>
+</html>
