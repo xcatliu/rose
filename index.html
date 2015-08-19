@@ -102,7 +102,7 @@ function prints(target, str, speed) {
   var timer = null;
   var count = 0;
   timer = setInterval(function() {
-    if (count >= str.length) {
+    if (count > str.length) {
       clearInterval(timer);
     } else {
       target.innerHTML = str.substring(0, count);
