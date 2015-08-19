@@ -40,7 +40,7 @@ button, input {
 #content pre {
   margin: 1rem 0;
   line-height: 1.8em;
-  font-size: 2em;
+  font-size: 1.8em;
   text-align: center;
 }
 .canvas-container {
@@ -117,7 +117,7 @@ var lines = [urlParams.line0, urlParams.line1, urlParams.line2];
 if (lines[0] && lines[1] && lines[2]) {
   var pre = document.createElement('pre');
   content.appendChild(pre);
-  prints(pre, lines.join('\n'), 300);
+  prints(pre, lines.join('\n'), 200);
   setTimeout(function() {
     var createButton = document.createElement('button');
     createButton.className = 'create-button';
