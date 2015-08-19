@@ -20,6 +20,7 @@ body {
   font-size: 16px;
   line-height: 1.5em;
   overflow: hidden;
+  margin: 0 auto;
 }
 button, input {
   color: #333;
@@ -89,6 +90,11 @@ var urlParams;
   while (match = search.exec(query))
     urlParams[decode(match[1])] = decode(match[2]);
 })();
+
+
+if (window.document.body.clientWidth > window.document.body.clientHeight / 1.6) {
+  window.document.body.style.width = window.document.body.clientHeight / 1.6 + 'px';
+}
 
 
 var SCALE = window.document.body.clientWidth / 200;
